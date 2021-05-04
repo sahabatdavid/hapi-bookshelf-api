@@ -43,7 +43,30 @@ const getAllBooksHandler = () => ({
   },
 });
 
+const getBookByIdHandler = (request, h) => {
+  const { id } = request.params;
+
+  const note = books.filter((n) => n.id === id)[0];
+
+  if (note !== undefined) {
+    return {
+      status: 'success',
+      data: {
+        note,
+      },
+    };
+  }
+
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan',
+  });
+  response.code(404);
+  return response;
+};
+
 module.exports = {
   addBookHandler,
   getAllBooksHandler,
+  getBookByIdHandler,
 };
