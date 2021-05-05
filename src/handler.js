@@ -20,6 +20,7 @@ const addBookHandler = (request, h) => {
       status: 'fail',
       message: 'Gagal menambahkan buku. Mohon isi nama buku',
     });
+
     response.code(400);
     return response;
   }
@@ -29,6 +30,7 @@ const addBookHandler = (request, h) => {
       status: 'fail',
       message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
     });
+
     response.code(400);
     return response;
   }
@@ -45,6 +47,7 @@ const addBookHandler = (request, h) => {
         bookId: id,
       },
     });
+
     response.code(201);
     return response;
   }
@@ -53,11 +56,94 @@ const addBookHandler = (request, h) => {
     status: 'error',
     message: 'Buku gagal ditambahkan',
   });
+
   response.code(500);
   return response;
 };
 
 const getAllBooksHandler = (request, h) => {
+  const { name, reading, finished } = request.query;
+
+  if (name !== undefined || name === 'Dicoding') {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((data) => data.name.toLowerCase().includes(name.toLowerCase())).map((data) => ({
+          id: data.id,
+          name: data.name,
+          publisher: data.publisher,
+        })),
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  if (reading === true) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((reading) => reading).map((data) => ({
+          id: data.id,
+          name: data.name,
+          publisher: data.publisher,
+        })),
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  if (reading === false) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((reading) => !reading).map((data) => ({
+          id: data.id,
+          name: data.name,
+          publisher: data.publisher,
+        })),
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  if (finished === true) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((finished) => finished).map((data) => ({
+          id: data.id,
+          name: data.name,
+          publisher: data.publisher,
+        })),
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  if (finished === false) {
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: books.filter((finished) => !finished).map((data) => ({
+          id: data.id,
+          name: data.name,
+          publisher: data.publisher,
+        })),
+      },
+    });
+
+    response.code(200);
+    return response;
+  }
+
   const response = h.response({
     status: 'success',
     data: {
@@ -72,6 +158,7 @@ const getAllBooksHandler = (request, h) => {
   response.code(200);
   return response;
 };
+
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
   const book = books.filter((data) => data.id === bookId)[0];
@@ -173,6 +260,7 @@ const deleteBookByIdHandler = (request, h) => {
     status: 'fail',
     message: 'Buku gagal dihapus. Id tidak ditemukan',
   });
+
   response.code(404);
   return response;
 };
