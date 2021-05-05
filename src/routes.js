@@ -9,27 +9,27 @@ const {
 const routes = [
   {
     method: 'POST',
-    path: '/notes',
+    path: '/books',
     handler: addBookHandler,
   },
   {
     method: 'GET',
-    path: '/notes',
+    path: '/books',
     handler: getAllBooksHandler,
   },
   {
     method: 'GET',
-    path: '/notes/{id}',
+    path: '/books/{bookId}',
     handler: getBookByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/notes/{id}',
+    path: '/books/{bookId}',
     handler: editBookByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/notes/{id}',
+    path: '/books/{bookId}',
     handler: deleteBookByIdHandler,
   },
 ];
